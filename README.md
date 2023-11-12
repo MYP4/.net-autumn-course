@@ -28,7 +28,7 @@
   - управление пользователями(блокировка/разблокировка) 
     
 
- ![Image]()
+ ![Image](https://github.com/MYP4/.net-autumn-course/blob/main/DataModelEdited.jpg)
 
 
     
