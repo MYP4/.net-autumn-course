@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineCinema.Contex.Entities\OnlineCinema.Contex.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
