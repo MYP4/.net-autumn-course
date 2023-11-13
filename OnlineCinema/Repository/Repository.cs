@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineCinema.Contex;
-using OnlineCinema.Contex.Entities;
+using OnlineCinema.Context;
+using OnlineCinema.Context.Entities;
 using System.Linq.Expressions;
 
 namespace Repository;

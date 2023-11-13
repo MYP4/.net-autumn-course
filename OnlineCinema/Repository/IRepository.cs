@@ -1,4 +1,4 @@
-﻿using OnlineCinema.Contex.Entities;
+﻿using OnlineCinema.Context.Entities;
 using System.Linq.Expressions;
 
 namespace Repository;

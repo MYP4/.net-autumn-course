@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using OnlineCinema.Contex;
+using OnlineCinema.Context;
 
 namespace OnlineCinema.Api.Configuration;
 
