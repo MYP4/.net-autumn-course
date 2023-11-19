@@ -32,7 +32,7 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         return context.Set<T>().FirstOrDefault(x => x.Id == id);
     }
 
-    public T? GetByID(Guid id)
+    public T? GetByGuid(Guid id)
     {
         using var context = _contextFactory.CreateDbContext();
         return context.Set<T>().FirstOrDefault(x => x.ExternalId == id);

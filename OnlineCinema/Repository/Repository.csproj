@@ -7,10 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\OnlineCinema.Contex.Entities\OnlineCinema.Contex.Entities.csproj" />
     <ProjectReference Include="..\Data\OnlineCinema.Context.Entities\OnlineCinema.Contex.Entities.csproj" />
     <ProjectReference Include="..\Data\OnlineCinema.Context\OnlineCinema.Context.csproj" />
-    <ProjectReference Include="..\Data\OnlineCinema.Contex\OnlineCinema.Context.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineCinema.Context;
 
@@ -11,9 +12,11 @@ using OnlineCinema.Context;
 namespace OnlineCinema.Context.Migrations
 {
     [DbContext(typeof(OnlineCinemaDbContext))]
-    partial class OnlineCinemaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231119102934_m1")]
+    partial class m1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,7 +79,7 @@ namespace OnlineCinema.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AgeLimit")
+                    b.Property<int>("AgeLimit")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -94,7 +97,7 @@ namespace OnlineCinema.Context.Migrations
                     b.Property<Guid>("ExternalId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("GenreId")
+                    b.Property<int>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<string>("Link")
@@ -289,7 +292,9 @@ namespace OnlineCinema.Context.Migrations
                 {
                     b.HasOne("OnlineCinema.Context.Entities.GenreEntity", "Genre")
                         .WithMany("Movies")
-                        .HasForeignKey("GenreId");
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Genre");
                 });

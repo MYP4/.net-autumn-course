@@ -33,9 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Data\OnlineCinema.Context.Entities\OnlineCinema.Contex.Entities.csproj" />
     <ProjectReference Include="..\..\..\Data\OnlineCinema.Context\OnlineCinema.Context.csproj" />
-    <ProjectReference Include="..\..\..\Data\OnlineCinema.Contex\OnlineCinema.Context.csproj" />
-    <ProjectReference Include="..\..\..\Shared\OnlineCinema.Common\OnlineCinema.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

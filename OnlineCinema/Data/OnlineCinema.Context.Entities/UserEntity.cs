@@ -10,10 +10,10 @@ public class UserEntity : BaseEntity
     public string Patronymic { get; set; }
     public string Login { get; set; }
     public string Password { get; set; }    // HashPassword
-    public DateTime Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
 
 
-    public int RoleId { get; set; }
+    public int? RoleId { get; set; }
     public RoleEntity Role { get; set; }
 
 
