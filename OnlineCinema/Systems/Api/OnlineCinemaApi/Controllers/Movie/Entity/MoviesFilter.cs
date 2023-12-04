@@ -2,6 +2,7 @@
 
 public class MoviesFilter
 {
-    public int? MinimumAge { get; set; }
-    public string Subscription { get; set; }
+    public string? Genre { get; set; }
+    public double? Rating { get; set; }
+    public int? AgeLimit { get; set; }
 }

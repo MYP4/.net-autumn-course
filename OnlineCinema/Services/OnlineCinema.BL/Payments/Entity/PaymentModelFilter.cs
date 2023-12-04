@@ -1,11 +1,4 @@
-﻿using OnlineCinema.Context.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OnlineCinema.BL.Payments.Entity;
+﻿namespace OnlineCinema.BL.Payments.Entity;
 
 public class PaymentModelFilter
 {

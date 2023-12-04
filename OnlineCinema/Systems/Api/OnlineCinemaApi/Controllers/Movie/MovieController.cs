@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using OnlineCinema.BL;
 using OnlineCinema.Api.Controllers.Movie.Entities;
-
 using Microsoft.AspNetCore.Mvc;
 using OnlineCinema.BL.Movies;
+using OnlineCinema.BL.Movies.Entities;
 
 namespace OnlineCinema.Api.Controllers.Movie;
 
@@ -13,41 +13,56 @@ namespace OnlineCinema.Api.Controllers.Movie;
 public class MovieController : ControllerBase
 {
 
-    private readonly IMovieProvider _movieProvider;
-    private readonly IMovieManager _movieManager;
+    private readonly IMovieProvider _moviesProvider;
+    private readonly IMovieManager _moviesManager;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 
-    public MovieController(IMovieProvider movieProvider, IMovieManager movieManager, IMapper mapper, ILogger logger)
+    public MovieController(IMovieProvider moviesProvider, IMovieManager moviesManager, IMapper mapper, ILogger logger)
     {
-        _movieManager = movieManager;
-        _movieProvider = movieProvider;
+        _moviesManager = moviesManager;
+        _moviesProvider = moviesProvider;
         _mapper = mapper;
         _logger = logger;
     }
 
 
     [HttpGet]
-    public IActionResult GetAllMovies()
+    public IActionResult GetAllMovies(Guid userId)
     {
-        //var movies = _movieProvider.GetMovies();
-
-        return Ok();
+        var movies = _moviesProvider.GetMovies(userId);
+        return Ok(new MoviesListResponce()
+        {
+            Movies = movies.ToList()
+        });
     }
 
 
     [HttpGet]
     [Route("{id}")]
-    public IActionResult GetMovieInfo(Guid id)
+    public IActionResult GetMovieInfo([FromRoute] Guid id)
     {
-        return Ok();
+        try
+        {
+            var movie = _moviesProvider.GetMovieInfo(id);
+            return Ok(movie);
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex.ToString()); //stack trace + message
+            return NotFound(ex.Message);
+        }
     }
 
     [HttpGet]
     [Route("filter")]
-    public IActionResult GetFilteredMovies([FromQuery] MoviesFilter filter)
+    public IActionResult GetFilteredMovies(Guid userId, [FromQuery] MoviesFilter filter)
     {
-        return Ok();
+        var movies = _moviesProvider.GetMovies(userId, _mapper.Map<MoviesModelFilter>(filter));
+        return Ok(new MoviesListResponce()
+        {
+            Movies = movies.ToList()
+        });
     }
 
 
@@ -56,12 +71,12 @@ public class MovieController : ControllerBase
     {
         try
         {
-
-            return Ok();
+            var movie = _moviesManager.CreateMovie(_mapper.Map<CreateMovieModel>(request));
+            return Ok(movie);
         }
         catch (ArgumentException ex)
         {
-
+            _logger.LogError(ex.ToString());
             return BadRequest(ex.Message);
         }
     }
