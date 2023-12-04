@@ -2,7 +2,6 @@
 
 public enum AgeLimitEnum
 {
-    Nome,
     Baby = 0,
     Child = 6,
     PreTeen = 12,
