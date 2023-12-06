@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using OnlineCinema.BL;
-using OnlineCinema.Api.Controllers.Movie.Entities;
 using Microsoft.AspNetCore.Mvc;
+using OnlineCinema.Api.Controllers.Movie.Entities;
 using OnlineCinema.BL.Movies;
 using OnlineCinema.BL.Movies.Entities;
 
@@ -37,7 +36,6 @@ public class MovieController : ControllerBase
         });
     }
 
-
     [HttpGet]
     [Route("{id}")]
     public IActionResult GetMovieInfo([FromRoute] Guid id)
@@ -55,16 +53,26 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
-    [Route("filter")]
+    [Route("user_filter")]
     public IActionResult GetFilteredMovies(Guid userId, [FromQuery] MoviesFilter filter)
     {
-        var movies = _moviesProvider.GetMovies(userId, _mapper.Map<MoviesModelFilter>(filter));
+        var movies = _moviesProvider.GetMovies(userId, _mapper.Map<MovieModelFilter>(filter));
         return Ok(new MoviesListResponce()
         {
             Movies = movies.ToList()
         });
     }
 
+    [HttpGet]
+    [Route("filter")]
+    public IActionResult GetFilteredMovies([FromQuery] MoviesFilter filter)
+    {
+        var movies = _moviesProvider.GetMovies(_mapper.Map<MovieModelFilter>(filter));
+        return Ok(new MoviesListResponce()
+        {
+            Movies = movies.ToList()
+        });
+    }
 
     [HttpPost]
     public IActionResult CreateMovie([FromBody] CreateMovieRequest request)
@@ -94,6 +102,15 @@ public class MovieController : ControllerBase
     [Route("{id}")]
     public IActionResult DeleteMovie([FromRoute] Guid id)
     {
-        return Ok();
+        try
+        {
+            _moviesManager.DeleteMovie(id);
+            return Ok();
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest(ex.Message);
+        }
     }
 }

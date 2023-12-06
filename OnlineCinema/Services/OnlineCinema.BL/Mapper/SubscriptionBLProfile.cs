@@ -1,7 +1,4 @@
-﻿
-
-using AutoMapper;
-using OnlineCinema.BL.Movies.Entities;
+﻿using AutoMapper;
 using OnlineCinema.BL.Subscription.Entities;
 using OnlineCinema.Context.Entities;
 

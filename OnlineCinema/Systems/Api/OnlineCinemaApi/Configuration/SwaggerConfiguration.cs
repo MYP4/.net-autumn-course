@@ -1,4 +1,6 @@
-﻿namespace OnlineCinema.Api.Configuration;
+﻿using OnlineCinema.BL.Movies;
+
+namespace OnlineCinema.Api.Configuration;
 
 
 /// <summary>
@@ -10,6 +12,9 @@ public static class SwaggerConfiguration
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddSingleton<IMovieProvider, MovieProvider>();
+        services.AddSingleton<IMovieManager, MovieManager>();
     }
 
 

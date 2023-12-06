@@ -10,9 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Payment\" />
-    <Folder Include="Controllers\Subscription\Entities\" />
-    <Folder Include="Controllers\User\Entities\" />
+    <Folder Include="Controllers\User\Models\" />
     <Folder Include="logs\" />
   </ItemGroup>
 

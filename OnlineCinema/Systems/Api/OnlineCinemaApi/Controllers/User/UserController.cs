@@ -13,9 +13,9 @@ public class UserController : ControllerBase
     //login
     //logout - 
 
-    [HttpPost]
-    public IActionResult RegisterUser([FromBody] RegisterUserRequest request)
-    {
-        return Ok();
-    }
+    //[HttpPost]
+    //public IActionResult RegisterUser([FromBody] RegisterUserRequest request)
+    //{
+    //    return Ok();
+    //}
 }

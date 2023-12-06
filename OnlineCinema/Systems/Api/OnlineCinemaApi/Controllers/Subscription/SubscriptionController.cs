@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineCinema.Api.Controllers.Subscription.Models;
 
 namespace OnlineCinema.Api.Controllers.Subscription;
 
@@ -28,18 +29,18 @@ public class SubscriptionController : ControllerBase
     }
 
 
-    [HttpPost]
-    public IActionResult CreateSubscription([FromBody] CreateSubscriptionRequest request)
-    {
-        try
-        {
+    //[HttpPost]
+    //public IActionResult CreateSubscription([FromBody] CreateSubscriptionRequest request)
+    //{
+    //    try
+    //    {
 
-        }
-        catch (ArgumentException ex)
-        {
+    //    }
+    //    catch (ArgumentException ex)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
     [HttpPut]
     [Route("{id}")]
