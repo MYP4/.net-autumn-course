@@ -24,7 +24,9 @@ services.AddDataBase(connectionString ?? "");
 
 services.AddHttpContextAccessor();
 
-services.ConfigureServices();
+services.ConfigureSwaggerServices();
+services.ConfigureMapperServices();
+services.ConfigureService();
 
 services.AddControllers();
 
@@ -33,7 +35,7 @@ services.AddControllers();
 
 var app = builder.Build();
 
-app.ConfigureApplication();
+app.ConfigureSwaggerApplication();
 app.UseAuthorization();
 app.MapControllers();
 

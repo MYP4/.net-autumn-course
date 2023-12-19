@@ -1,7 +1,7 @@
 ﻿using OnlineCinema.Context.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineCinema.Api.Controllers.Movie.Entities;
+namespace OnlineCinema.Api.Controllers.Movie.Models;
 
 public class CreateMovieRequest : IValidatableObject
 {
@@ -17,7 +17,7 @@ public class CreateMovieRequest : IValidatableObject
     [Required]
     public string Link { get; set; } // link to the movie
 
-    [Range(0, 5)]    
+    [Range(0, 5)]
     public double Rating { get; set; }
 
     [Required]

@@ -2,6 +2,8 @@
 
 namespace OnlineCinema.Api.Controllers.User;
 
+[ApiController]
+[Route("[controller]")]
 public class UserController : ControllerBase
 {
 

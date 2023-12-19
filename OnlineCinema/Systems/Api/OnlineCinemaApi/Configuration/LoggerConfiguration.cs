@@ -19,6 +19,7 @@ public static class LoggerConfiguration
             .CreateLogger();
 
         builder.Host.UseSerilog(logger, true);
+        builder.Services.AddHttpContextAccessor();
     }
 }
 

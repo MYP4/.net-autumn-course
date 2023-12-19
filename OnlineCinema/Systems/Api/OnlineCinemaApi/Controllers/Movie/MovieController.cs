@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineCinema.Api.Controllers.Movie.Entities;
+using OnlineCinema.Api.Controllers.Movie.Models;
 using OnlineCinema.BL.Movies;
 using OnlineCinema.BL.Movies.Entities;
 
@@ -11,13 +12,12 @@ namespace OnlineCinema.Api.Controllers.Movie;
 [Route("[controller]")]
 public class MovieController : ControllerBase
 {
-
     private readonly IMovieProvider _moviesProvider;
     private readonly IMovieManager _moviesManager;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 
-    public MovieController(IMovieProvider moviesProvider, IMovieManager moviesManager, IMapper mapper, ILogger logger)
+    public MovieController(IMovieProvider moviesProvider, IMovieManager moviesManager, IMapper mapper, ILogger<MovieController> logger)
     {
         _moviesManager = moviesManager;
         _moviesProvider = moviesProvider;
