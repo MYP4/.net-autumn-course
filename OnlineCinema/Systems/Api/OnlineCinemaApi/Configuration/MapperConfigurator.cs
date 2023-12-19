@@ -2,6 +2,7 @@
 using OnlineCinema.Api.Controllers.Movie.Models;
 using OnlineCinema.Api.Controllers.Payment.Models.Mappers;
 using OnlineCinema.Api.Controllers.Subscription.Models.Mappers;
+using OnlineCinema.Api.Controllers.User.Models.Mappers;
 using OnlineCinema.BL.Mapper;
 
 namespace OnlineCinema.Api.Configuration;
@@ -16,11 +17,14 @@ public static class MapperConfigurator
             config.AddProfile<MovieBLProfile>();
             config.AddProfile<PaymentBLProfile>();
             config.AddProfile<SubscriptionBLProfile>();
+            config.AddProfile<UserBLProfile>();
 
             config.AddProfile<CreateMovieRequestProfile>();
             config.AddProfile<CreateGenreRequestProfile>();
             config.AddProfile<CreateSubscriptionRequestProfile>();
             config.AddProfile<CreatePaymentRequestProfile>();
+
+            config.AddProfile<CreateUserRequestProfile>();
         });
     }
 }

@@ -5,7 +5,7 @@ using Duende.IdentityServer.Models;
 
 namespace OnlineCinema.BL.Entities.Auth;
 
-internal class AuthProvider : IAuthProvider
+public class AuthProvider : IAuthProvider
 {
     private readonly SignInManager<UserEntity> _signInManager;
     private readonly UserManager<UserEntity> _userManager;
@@ -16,7 +16,6 @@ internal class AuthProvider : IAuthProvider
 
     public AuthProvider(
         SignInManager<UserEntity> signInManager,
-        RoleManager<IdentityRole<int>> roleManager,
         UserManager<UserEntity> userManager,
         IHttpClientFactory httpClientFactory,
         string identityServerUri,
@@ -77,26 +76,6 @@ internal class AuthProvider : IAuthProvider
 
     public async Task RegisterUser(string email, string password, string name, string surname)
     {
-        var user = await _userManager.FindByIdAsync(email);
-        if (user!= null)
-        {
-            throw new Exception($"User with {email} already exists.");
-        }
-
-        UserEntity userEntity = new UserEntity()
-        {
-            UserName = email,
-            Email = email,
-            FirstName = name,
-            SecondName = surname,
-        };
-
-        var createUserResult = await _userManager.CreateAsync(userEntity, password);
-
-        if (!createUserResult.Succeeded)
-        {
-            throw new Exception(createUserResult.Errors.ToString());
-        }
     }
 
 }

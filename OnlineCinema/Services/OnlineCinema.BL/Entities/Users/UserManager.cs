@@ -1,59 +1,85 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OnlineCinema.BL.Users.Entities;
 using OnlineCinema.Context.Entities;
-using Repository;
+
 
 namespace OnlineCinema.BL.Users;
 
 public class UserManager : IUserManager
 {
-    private readonly IRepository<UserEntity> _usersRepository;
+    private readonly UserManager<UserEntity> userManager;
     private readonly IMapper _mapper;
 
-    public UserManager(IRepository<UserEntity> usersRepository, IMapper mapper)
+    public UserManager(UserManager<UserEntity> userManager, IMapper mapper)
     {
-        _usersRepository = usersRepository;
+        this.userManager = userManager;
         _mapper = mapper;
     }
 
-    public UserModel CreateUser(CreateUserModel model)
+    public async Task<UserModel> CreateUser(CreateUserModel model)
     {
-        var entity = _mapper.Map<UserEntity>(model);
+        var user = await userManager.FindByEmailAsync(model.Email);
+        if (user != null)
+        {
+            throw new Exception($"User with {model.Email} already exists.");
+        }
 
-        _usersRepository.Save(entity);
 
-        return _mapper.Map<UserModel>(entity);
+        UserEntity userEntity = new UserEntity()
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            Patronymic = model.Patronymic,
+            SecondName = model.SecondName,
+            Birthday = model.Birthday,
+        };
+
+        var createUserResult = await userManager.CreateAsync(userEntity, model.Password);
+
+        if (!createUserResult.Succeeded)
+        {
+            throw new Exception(String.Join(", ", createUserResult.Errors.Select(x => x.Description)));
+        }
+
+        return _mapper.Map<UserModel>(userEntity);
     }
 
 
-    public UserModel UpdateUser(Guid id, UpdateUserModel model)
+    public async Task UpdateUser(Guid id, UpdateUserModel model)
     {
-        var entity = _usersRepository.GetByGuid(id);
+        //    var entity = _usersRepository.GetByGuid(id);
 
-        if (entity == null)
-        {
-            throw new ArgumentException("User not found");
-        }
+        //    if (entity == null)
+        //    {
+        //        throw new ArgumentException("User not found");
+        //    }
 
-        entity.FirstName = model.FirstName;
-        entity.SecondName = model.SecondName;
+        //    entity.FirstName = model.FirstName;
+        //    entity.SecondName = model.SecondName;
 
 
-        _usersRepository.Save(entity);
+        //    _usersRepository.Save(entity);
 
-        return _mapper.Map<UserModel>(entity);
+        //    return _mapper.Map<UserModel>(entity);
     }
 
 
-    public void DeleteUser(Guid movieId)
+    public async Task DeleteUser(Guid id)
     {
-        var entity = _usersRepository.GetByGuid(movieId);
-
-        if (entity == null)
+        var user = await userManager.Users.FirstOrDefaultAsync(x => x.ExternalId == id);
+        if (user == null)
         {
-            throw new ArgumentException("User not found");
+            throw new Exception($"User with Id = {id} not found.");
         }
 
-        _usersRepository.Delete(entity);
+        var deleteUserResult = await userManager.DeleteAsync(user);
+
+        if (!deleteUserResult.Succeeded)
+        {
+            throw new Exception(String.Join(", ", deleteUserResult.Errors.Select(x => x.Description)));
+        }
     }
 }

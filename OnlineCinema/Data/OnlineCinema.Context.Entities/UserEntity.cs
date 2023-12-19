@@ -7,9 +7,9 @@ namespace OnlineCinema.Context.Entities;
 [Table("users")]
 public class UserEntity : IdentityUser<int>, IBaseEntity
 {
-    public Guid ExternalId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public DateTime ModificationTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public DateTime CreationTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Guid ExternalId { get ; set; } = Guid.NewGuid();
+    public DateTime ModificationTime { get; set; } = DateTime.Now;
+    public DateTime CreationTime { get; set; } = DateTime.Now;
 
 
     public string FirstName { get; set; }

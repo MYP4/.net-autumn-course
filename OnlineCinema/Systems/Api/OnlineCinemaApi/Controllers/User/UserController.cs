@@ -8,123 +8,123 @@ using OnlineCinema.BL.Users.Entities;
 
 namespace OnlineCinema.Api.Controllers.User;
 
+
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UsersController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class UsersController : ControllerBase
+    private readonly IAuthProvider _authProvider;
+    private readonly IUserProvider _userProvider;
+    private readonly IUserManager _userManager;
+    private readonly IMapper _mapper;
+    private readonly ILogger _logger;
+
+    public UsersController(
+        IAuthProvider authProvdider, 
+        IUserProvider usersProvider,
+        IUserManager userManager,
+        IMapper mapper, 
+        ILogger<UsersController> logger)
     {
-        private readonly IAuthProvider _authProvider;
-        private readonly IUserManager _userManager;
-        private readonly IUserProvider _userProvider;
-        private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        _authProvider = authProvdider;
+        _userProvider = usersProvider;
+        _userManager = userManager;
+        _mapper = mapper;
+        _logger = logger;
+    }
 
-        public UsersController(IAuthProvider authProvdider, IUserManager usersManager, IUserProvider usersProvider,
-            IMapper mapper, ILogger<UsersController> logger)
+    [HttpGet]
+    [Route("login")]
+    public async Task<IActionResult> LoginUser([FromQuery] string email, [FromQuery] string password)
+    {
+        try
         {
-            _authProvider = authProvdider;
-            _userManager = usersManager;
-            _userProvider = usersProvider;
-            _mapper = mapper;
-            _logger = logger;
+            TokenResponse tokens = await _authProvider.AuthorizeUser(email, password);
+            return Ok(tokens);
         }
-
-        [HttpGet]
-        [Route("login")]
-        public async Task<IActionResult> LoginUser([FromQuery] string email, [FromQuery] string password)
+        catch (Exception ex)
         {
-            try
-            {
-                TokenResponse tokens = await _authProvider.AuthorizeUser(email, password);
-                return Ok(tokens);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] CreateUserRequest request)
+    [HttpPost]
+    [Route("register")]
+    public async Task<IActionResult> RegisterUser([FromBody] CreateUserRequest request)
+    {
+        try
         {
-            try
-            {
-                await _authProvider.RegisterUser(request.Email, request.Password, request.FirstName, request.SecondName);
-                UserModel user = _userManager.CreateUser(_mapper.Map<CreateUserModel>(request));
+            var user = await _userManager.CreateUser(_mapper.Map<CreateUserModel>(request));
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(user);
         }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult GetAllUsers()
+        catch (Exception ex)
         {
-            IEnumerable<UserModel> users = _userProvider.GetUsers();
-
-            return Ok(new UsersListResponce()
-            {
-                Users = users.ToList()
-            });
+            return BadRequest(ex.Message);
         }
+    }
 
-        [Authorize]
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetUser([FromRoute] Guid id)
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        IEnumerable<UserModel> users =  await _userProvider.GetUsers();
+
+        return Ok(new UsersListResponce()
         {
-            try
-            {
-                UserModel user = _userProvider.GetUserInfo(id);
-                return Ok(user);
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError(ex.ToString());
-                return NotFound(ex.Message);
-            }
+            Users = users.ToList()
+        });
+    }
+
+    [Authorize]
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> GetUser([FromRoute] Guid id)
+    {
+        try
+        {
+            UserModel user = await _userProvider.GetUserInfo(id);
+            return Ok(user);
         }
-
-        [Authorize]
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateUserInfo([FromRoute] Guid id, UpdateUserRequest request)
+        catch (ArgumentException ex)
         {
-            try
-            {
-                UserModel user = _userManager.UpdateUser(id, _mapper.Map<UpdateUserModel>(request));
-                return Ok(user);
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError(ex.ToString());
-                return NotFound(ex.Message);
-            }
+            _logger.LogError(ex.ToString());
+            return NotFound(ex.Message);
         }
+    }
 
-        [Authorize]
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult DeleteUser([FromRoute] Guid id)
+    [Authorize]
+    //[HttpPut]
+    //[Route("{id}")]
+    //public IActionResult UpdateUserInfo([FromRoute] Guid id, UpdateUserRequest request)
+    //{
+    //    try
+    //    {
+    //        UserModel user = _userManager.UpdateUser(id, _mapper.Map<UpdateUserModel>(request));
+    //        return Ok(user);
+    //    }
+    //    catch (ArgumentException ex)
+    //    {
+    //        _logger.LogError(ex.ToString());
+    //        return NotFound(ex.Message);
+    //    }
+    //}
+
+    [Authorize]
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
+    {
+        try
         {
-            try
-            {
-                _userManager.DeleteUser(id);
-                return Ok();
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError(ex.ToString());
-                return NotFound(ex.Message);
-            }
+            await _userManager.DeleteUser(id);
+            return Ok();
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex.ToString());
+            return NotFound(ex.Message);
         }
     }
 }
+

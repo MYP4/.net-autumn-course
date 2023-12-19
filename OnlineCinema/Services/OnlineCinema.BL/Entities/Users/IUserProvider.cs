@@ -4,6 +4,6 @@ namespace OnlineCinema.BL.Users;
 
 public interface IUserProvider
 {
-    IEnumerable<UserModel> GetUsers(UserModelFilter filter = null);
-    UserModel GetUserInfo(Guid id);
+    Task<IEnumerable<UserModel>> GetUsers(UserModelFilter filter = null);
+    Task<UserModel> GetUserInfo(Guid id);
 }
