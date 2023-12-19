@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineCinema.Api.Controllers.Movie.Entities;
 using OnlineCinema.Api.Controllers.Movie.Models;
@@ -52,16 +53,6 @@ public class MovieController : ControllerBase
         }
     }
 
-    [HttpGet]
-    [Route("user_filter")]
-    public IActionResult GetFilteredMovies(Guid userId, [FromQuery] MoviesFilter filter)
-    {
-        var movies = _moviesProvider.GetMovies(userId, _mapper.Map<MovieModelFilter>(filter));
-        return Ok(new MoviesListResponce()
-        {
-            Movies = movies.ToList()
-        });
-    }
 
     [HttpGet]
     [Route("filter")]

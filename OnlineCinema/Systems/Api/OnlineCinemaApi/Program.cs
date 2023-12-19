@@ -28,6 +28,9 @@ services.ConfigureSwaggerServices();
 services.ConfigureMapperServices();
 services.ConfigureService();
 
+services.ConfigureAuthServices();
+
+
 services.AddControllers();
 
 
@@ -37,6 +40,9 @@ var app = builder.Build();
 
 app.ConfigureSwaggerApplication();
 app.UseAuthorization();
+
+app.ConfigureAuthApplication();
+
 app.MapControllers();
 
 app.UseDataBase();

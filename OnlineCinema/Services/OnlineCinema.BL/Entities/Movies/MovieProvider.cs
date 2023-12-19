@@ -9,13 +9,13 @@ namespace OnlineCinema.BL.Movies;
 public class MovieProvider : IMovieProvider
 {
     private readonly IRepository<MovieEntity> _movieRepository;
-    private readonly IRepository<UserEntity> _userRepository;
+    //private readonly IRepository<UserEntity> _userRepository;
     private readonly IMapper _mapper;
 
-    public MovieProvider(IRepository<MovieEntity> movieRepository, IRepository<UserEntity> userRepository, IMapper mapper)
+    public MovieProvider(IRepository<MovieEntity> movieRepository, /*IRepository<UserEntity> userRepository, */IMapper mapper)
     {
         _movieRepository = movieRepository;
-        _userRepository = userRepository;
+        //_userRepository = userRepository;
         _mapper = mapper;
     }
 
@@ -38,15 +38,15 @@ public class MovieProvider : IMovieProvider
         var genre = filter?.Genre;
 
         var currentDate = DateTime.UtcNow;
-        var currentUser = _userRepository.GetByGuid(userId);
+        //var currentUser = _userRepository.GetByGuid(userId);
 
-        var movies = _movieRepository
-            .GetAll(x => (ageLimit == null || AgeHelper.GetAge(currentUser.Birthday) >= ageLimit) &&
-                         (rating == null || x.Rating == rating) &&
-                         (genre == null || x.Genre.Equals(genre)));
+        //var movies = _movieRepository
+        //    .GetAll(x => (ageLimit == null || AgeHelper.GetAge(currentUser.Birthday) >= ageLimit) &&
+        //                 (rating == null || x.Rating == rating) &&
+        //                 (genre == null || x.Genre.Equals(genre)));
 
 
-        return _mapper.Map<IEnumerable<MovieModel>>(movies);
+        return null;// _mapper.Map<IEnumerable<MovieModel>>(movies);
     }
 
     public IEnumerable<MovieModel> GetMovies(MovieModelFilter filter = null)

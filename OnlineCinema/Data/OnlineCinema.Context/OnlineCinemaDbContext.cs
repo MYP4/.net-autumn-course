@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OnlineCinema.Context.Entities;
 
 namespace OnlineCinema.Context;
@@ -20,15 +21,30 @@ public class OnlineCinemaDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<RoleEntity>().HasKey(x => x.Id);
-        modelBuilder.Entity<RoleEntity>().HasIndex(x => x.ExternalId).IsUnique();
+        //modelBuilder.Entity<RoleEntity>().HasKey(x => x.Id);
+        //modelBuilder.Entity<RoleEntity>().HasIndex(x => x.ExternalId).IsUnique();
 
 
-        modelBuilder.Entity<UserEntity>().HasKey(x => x.Id);
-        modelBuilder.Entity<UserEntity>().HasIndex(x => x.ExternalId).IsUnique();
-        modelBuilder.Entity<UserEntity>().HasOne(x => x.Role)
-            .WithMany(x => x.Users)
-            .HasForeignKey(x => x.RoleId);
+        //modelBuilder.Entity<UserEntity>().HasKey(x => x.Id);
+        //modelBuilder.Entity<UserEntity>().HasIndex(x => x.ExternalId).IsUnique();
+        //modelBuilder.Entity<UserEntity>().HasOne(x => x.Role)
+        //    .WithMany(x => x.Users)
+        //    .HasForeignKey(x => x.RoleId);
+
+        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("user_claims");
+        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("user_logins").HasNoKey();
+        modelBuilder.Entity<IdentityUserToken<int>>().ToTable("user_tokens").HasNoKey(); ;
+        modelBuilder.Entity<RoleEntity>().ToTable("user_roles");
+        modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("user_role_claims");
+        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("user_role_owners").HasNoKey();
+
+        //modelBuilder.Entity<UserEntity>().HasKey(x => x.Id);
+        //modelBuilder.Entity<UserEntity>().HasIndex(x => x.ExternalId).IsUnique();
+        //modelBuilder.Entity<UserEntity>().HasOne(x => x.Club)
+        //    .WithMany(x => x.Users)
+        //    .HasForeignKey(x => x.ClubId);
+
+
 
 
         modelBuilder.Entity<PaymentEntity>().HasKey(x => x.Id);
