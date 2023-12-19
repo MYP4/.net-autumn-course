@@ -38,11 +38,6 @@ public class MovieManager : IMovieManager
         entity.Name = model.Name;
         entity.Description = model.Description;
         entity.Director = model.Director;
-        entity.Link = model.Link;
-        entity.Rating = model.Rating;
-        entity.Duration = model.Duration;
-        entity.AgeLimit = model.AgeLimit;
-        entity.Genre = model.Genre;
 
 
         _moviesRepository.Save(entity);

@@ -93,8 +93,16 @@ public class MovieController : ControllerBase
     [Route("{id}")]
     public IActionResult UpdateMovieInfo([FromRoute] Guid id, UpdateMovieRequest request)
     {
-
-        return Ok();
+        try
+        {
+            _moviesManager.UpdateMovie(id, _mapper.Map<UpdateMovieModel>(request));
+            return Ok();
+        }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest(ex.Message);
+        }
     }
 
 
