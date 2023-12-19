@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using OnlineCinema.Contex.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineCinema.Context.Entities;
 
 [Table("users")]
-public class UserEntity : IdentityUser<int>
+public class UserEntity : IdentityUser<int>, IBaseEntity
 {
-    public Guid ExternalId { get; set; }
-    public DateTime CreationTime { get; set; }
-    public DateTime ModificationTime { get; set; }
+    public Guid ExternalId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public DateTime ModificationTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public DateTime CreationTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 
     public string FirstName { get; set; }

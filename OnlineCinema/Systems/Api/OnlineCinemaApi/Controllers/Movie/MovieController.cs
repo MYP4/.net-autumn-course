@@ -28,9 +28,9 @@ public class MovieController : ControllerBase
 
 
     [HttpGet]
-    public IActionResult GetAllMovies(Guid userId)
+    public IActionResult GetAllMovies()
     {
-        var movies = _moviesProvider.GetMovies(userId);
+        var movies = _moviesProvider.GetMovies();
         return Ok(new MoviesListResponce()
         {
             Movies = movies.ToList()

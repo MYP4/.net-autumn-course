@@ -1,14 +1,10 @@
-﻿using OnlineCinema.BL.Movies.Entities;
-using OnlineCinema.BL.Subscription.Entities;
-using OnlineCinema.BL.Users.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineCinema.BL.Users.Entities;
 
 namespace OnlineCinema.BL.Users;
 
 public interface IUserManager
 {
+    UserModel CreateUser(CreateUserModel model);
+    UserModel UpdateUser(Guid id, UpdateUserModel model);
+    void DeleteUser(Guid id);
 }

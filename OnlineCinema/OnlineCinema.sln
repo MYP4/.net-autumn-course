@@ -27,10 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.Context", "Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.Contex.Entities", "Data\OnlineCinema.Context.Entities\OnlineCinema.Contex.Entities.csproj", "{316F6314-64AB-4E85-A754-BB0618F169DF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{8A90110C-0B40-4661-95CA-85FC10BFF1F1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.Identity", "Systems\Identity\OnlineCinema.Identity\OnlineCinema.Identity.csproj", "{0551A57C-FDF6-4757-AC0A-5E18F7476898}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,10 +61,6 @@ Global
 		{316F6314-64AB-4E85-A754-BB0618F169DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{316F6314-64AB-4E85-A754-BB0618F169DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{316F6314-64AB-4E85-A754-BB0618F169DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0551A57C-FDF6-4757-AC0A-5E18F7476898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0551A57C-FDF6-4757-AC0A-5E18F7476898}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0551A57C-FDF6-4757-AC0A-5E18F7476898}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0551A57C-FDF6-4757-AC0A-5E18F7476898}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,8 +74,6 @@ Global
 		{C031C2F2-47BE-4854-99E9-1E5A96968306} = {D3502E6D-DB37-4AA3-BF52-281023EC9571}
 		{489C11C9-E81A-4963-A972-3F87B24E4666} = {22A173B9-B854-4A1B-8AED-2421B4E38605}
 		{316F6314-64AB-4E85-A754-BB0618F169DF} = {22A173B9-B854-4A1B-8AED-2421B4E38605}
-		{8A90110C-0B40-4661-95CA-85FC10BFF1F1} = {57ED9309-69F9-4785-A082-B37B98D241E4}
-		{0551A57C-FDF6-4757-AC0A-5E18F7476898} = {8A90110C-0B40-4661-95CA-85FC10BFF1F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {847162A3-C43A-47BE-9F23-DC72E0E9C641}

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace OnlineCinema.BL.Users.Entities;
 
-namespace OnlineCinema.BL.Users.Entities
+public class UserModelFilter
 {
-    internal class UserModelFilter
-    {
-    }
+    public string? FirstName { get; set; }
+    public string? SecondName { get; set; }
 }

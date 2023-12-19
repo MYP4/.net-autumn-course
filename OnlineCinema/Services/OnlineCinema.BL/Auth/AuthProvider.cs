@@ -1,0 +1,102 @@
+﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Identity;
+using OnlineCinema.Context.Entities;
+using Duende.IdentityServer.Models;
+
+namespace OnlineCinema.BL.Entities.Auth;
+
+internal class AuthProvider : IAuthProvider
+{
+    private readonly SignInManager<UserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly string _identityServerUri;
+    private readonly string _clientId;
+    private readonly string _clientSecret;
+
+    public AuthProvider(
+        SignInManager<UserEntity> signInManager,
+        RoleManager<IdentityRole<int>> roleManager,
+        UserManager<UserEntity> userManager,
+        IHttpClientFactory httpClientFactory,
+        string identityServerUri,
+        string clientId,
+        string clientSecret)
+    {
+        _signInManager = signInManager;
+        _userManager = userManager;
+        _identityServerUri = identityServerUri;
+        _httpClientFactory = httpClientFactory;
+        _clientId = clientId;
+        _clientSecret = clientSecret;
+    }
+
+    public async Task<TokenResponse> AuthorizeUser(string email, string password)
+    {
+        var user = await _userManager.FindByEmailAsync(email); //IRepository<UserEntity> get user by email
+        if (user is null)
+        {
+            throw new Exception(); //UserNotFoundException, BusinessLogicException(Code.UserNotFound);
+        }
+
+        var verificationPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+        if (!verificationPasswordResult.Succeeded)
+        {
+            throw new Exception(); //AuthorizationException, BusinessLogicException(Code.PasswordOrLoginIsIncorrect);
+        }
+
+        var client = _httpClientFactory.CreateClient();
+        var discoveryDoc = await client.GetDiscoveryDocumentAsync(_identityServerUri); //
+        if (discoveryDoc.IsError)
+        {
+            throw new Exception();
+        }
+
+        var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest()
+        {
+            Address = discoveryDoc.TokenEndpoint,
+            GrantType = GrantType.ResourceOwnerPassword,
+            ClientId = _clientId,
+            ClientSecret = _clientSecret,
+            UserName = user.UserName,
+            Password = password,
+            Scope = "api offline_access"
+        });
+
+        if (tokenResponse.IsError)
+        {
+            throw new Exception();
+        }
+
+        return new TokenResponse()
+        {
+            AccessToken = tokenResponse.AccessToken,
+            RefreshToken = tokenResponse.RefreshToken
+        };
+    }
+
+    public async Task RegisterUser(string email, string password, string name, string surname)
+    {
+        var user = await _userManager.FindByIdAsync(email);
+        if (user!= null)
+        {
+            throw new Exception($"User with {email} already exists.");
+        }
+
+        UserEntity userEntity = new UserEntity()
+        {
+            UserName = email,
+            Email = email,
+            FirstName = name,
+            SecondName = surname,
+        };
+
+        var createUserResult = await _userManager.CreateAsync(userEntity, password);
+
+        if (!createUserResult.Succeeded)
+        {
+            throw new Exception(createUserResult.Errors.ToString());
+        }
+    }
+
+}

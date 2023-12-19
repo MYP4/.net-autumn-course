@@ -1,11 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using OnlineCinema.BL.Entities.Auth;
-using OnlineCinema.BL.Movies;
+﻿using OnlineCinema.BL.Movies;
 using OnlineCinema.BL.Payments;
 using OnlineCinema.BL.Subscription;
-using OnlineCinema.BL.Users;
-using OnlineCinema.Context.Entities;
 using Repository;
 
 namespace OnlineCinema.Api.Configuration;
@@ -22,6 +17,8 @@ public static class ServicesConfigurator
         services.AddScoped<IPaymentProvider, PaymentProvider>();
         services.AddScoped<ISubscriptionManager, SubscriptionManager>();
         services.AddScoped<ISubscriptionProvider, SubscriptionProvider>();
-        
+
+        //services.AddScoped<IUserProvider, UserProvider>();
+        //services.AddScoped<IUserProvider, UserProvider>();
     }
 }

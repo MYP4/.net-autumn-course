@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OnlineCinema.BL.Users.Entities;
 
 namespace OnlineCinema.BL.Users;
 
-internal interface IUserProvider
+public interface IUserProvider
 {
+    IEnumerable<UserModel> GetUsers(UserModelFilter filter = null);
+    UserModel GetUserInfo(Guid id);
 }

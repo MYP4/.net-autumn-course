@@ -28,8 +28,8 @@ public static class AuthorizationConfigurator
             {
                 new Client()
                 {
-                    ClientName = "client_id",//settings.ClientId,
-                    ClientId = "client_id",//settings.ClientId,
+                    ClientName = "Swagger",
+                    ClientId = "IdentityServerSettings:ClientId",//settings.ClientId,
                     Enabled = true,
                     AllowOfflineAccess = true,
                     AllowedGrantTypes = new List<string>()
@@ -39,7 +39,7 @@ public static class AuthorizationConfigurator
                     },
                     ClientSecrets = new List<Secret>()
                     {
-                        new("client_secret".Sha256() /*settings.ClientSecret.Sha256()*/)
+                        new("IdentityServerSettings".Sha256() /*settings.ClientSecret.Sha256()*/)
                     },
                     AllowedScopes = new List<string>() { "api" }
                 }
